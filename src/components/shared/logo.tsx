@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils';
 
 export function Logo({ className }: { className?: string }) {
   return (
-    <Link href="/" className={cn("flex items-center", className)} aria-label="Mood Lab Homepage">
+    <Link href="/" className={cn("flex items-center gap-2", className)} aria-label="Mood Lab Homepage">
       <Image 
         src="https://iili.io/KSB81hN.md.png" 
         alt="Mood Lab Logo" 
@@ -13,6 +13,9 @@ export function Logo({ className }: { className?: string }) {
         className="h-auto"
         priority
       />
+      <span className="font-headline font-bold text-xl tracking-tight">
+        Mood Lab
+      </span>
     </Link>
   );
 }
