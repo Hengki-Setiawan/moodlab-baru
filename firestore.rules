@@ -1,0 +1,72 @@
+/**
+ * @file Firestore Security Rules
+ * @description This ruleset defines access control for the Mood Lab application's Firestore database.
+ *
+ * Core Philosophy:
+ * The ruleset provides public read access to projects, digital products, and team members, while restricting write access to authenticated users. Contact submissions are publicly writable, but listing is denied.
+ *
+ * Data Structure:
+ * The database consists of four top-level collections:
+ *   - /digitalProducts/{digitalProductId}: Stores information about digital products.
+ *   - /projects/{projectId}: Stores information about portfolio projects.
+ *   - /contactSubmissions/{contactSubmissionId}: Stores contact form submissions.
+ *   - /teamMembers/{teamMemberId}: Stores information about team members.
+ *
+ * Key Security Decisions:
+ * - Projects, Digital Products, and Team Members are publicly readable.
+ * - Contact submissions can be created by anyone, but listing is not allowed.
+ * - Write operations (create, update, delete) are generally disallowed, reflecting a content management system where data is managed via other administrative interfaces.
+ */
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /**
+     * @description Grants public read access to digital products and restricts write access.
+     * @path /digitalProducts/{digitalProductId}
+     * @allow (get, list) User can read any digital product.
+     * @deny (create, update, delete) User cannot create, update, or delete digital products without authentication.
+     * @principle Allows public reads while restricting writes to prevent unauthorized data modification.
+     */
+    match /digitalProducts/{digitalProductId} {
+      allow get, list: if true;
+      allow create, update, delete: if false;
+    }
+
+    /**
+     * @description Grants public read access to projects and restricts write access.
+     * @path /projects/{projectId}
+     * @allow (get, list) User can read any project.
+     * @deny (create, update, delete) User cannot create, update, or delete projects without authentication.
+     * @principle Allows public reads while restricting writes to prevent unauthorized data modification.
+     */
+    match /projects/{projectId} {
+      allow get, list: if true;
+      allow create, update, delete: if false;
+    }
+
+    /**
+     * @description Allows anyone to create a contact submission, but restricts listing and other modifications.
+     * @path /contactSubmissions/{contactSubmissionId}
+     * @allow (create) Any user, signed in or not, can create a contact submission.
+     * @deny (get, list, update, delete) Users cannot list, update, or delete contact submissions without authentication.
+     * @principle Enables contact form submissions while preventing unauthorized access to submission data.
+     */
+    match /contactSubmissions/{contactSubmissionId} {
+      allow create: if true;
+      allow get, list, update, delete: if false;
+    }
+
+    /**
+     * @description Grants public read access to team members and restricts write access.
+     * @path /teamMembers/{teamMemberId}
+     * @allow (get, list) User can read any team member.
+     * @deny (create, update, delete) User cannot create, update, or delete team members without authentication.
+     * @principle Allows public reads while restricting writes to prevent unauthorized data modification.
+     */
+    match /teamMembers/{teamMemberId} {
+      allow get, list: if true;
+      allow create, update, delete: if false;
+    }
+  }
+}

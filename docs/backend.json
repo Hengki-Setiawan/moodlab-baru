@@ -1,0 +1,230 @@
+{
+  "entities": {
+    "Project": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Project",
+      "type": "object",
+      "description": "Represents a portfolio project for the Mood Lab website.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the project."
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the project."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the project."
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "URL of the project's image.",
+          "format": "uri"
+        },
+        "category": {
+          "type": "string",
+          "description": "Category of the project (e.g., 'TikTok Content', 'Instagram Campaign')."
+        },
+        "client": {
+          "type": "string",
+          "description": "Name of the client for the project."
+        },
+        "caseStudyUrl": {
+          "type": "string",
+          "description": "URL to the project's case study (optional).",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "description",
+        "imageUrl",
+        "category",
+        "client"
+      ]
+    },
+    "ContactSubmission": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ContactSubmission",
+      "type": "object",
+      "description": "Represents a contact form submission from the Mood Lab website.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the contact submission."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the person submitting the form."
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address of the person submitting the form.",
+          "format": "email"
+        },
+        "companyName": {
+          "type": "string",
+          "description": "Company name of the person submitting the form."
+        },
+        "message": {
+          "type": "string",
+          "description": "Message from the person submitting the form."
+        },
+        "submissionDate": {
+          "type": "string",
+          "description": "Date and time the form was submitted.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "email",
+        "companyName",
+        "message",
+        "submissionDate"
+      ]
+    },
+    "TeamMember": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "TeamMember",
+      "type": "object",
+      "description": "Represents a team member at Mood Lab.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the team member."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the team member."
+        },
+        "title": {
+          "type": "string",
+          "description": "Job title of the team member."
+        },
+        "bio": {
+          "type": "string",
+          "description": "Biography of the team member."
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "URL of the team member's image.",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "title",
+        "bio",
+        "imageUrl"
+      ]
+    },
+    "DigitalProduct": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "DigitalProduct",
+      "type": "object",
+      "description": "Represents a digital product offered by Mood Lab.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the digital product."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the digital product."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the digital product."
+        },
+        "price": {
+          "type": "number",
+          "description": "Price of the digital product."
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "URL of the digital product's image.",
+          "format": "uri"
+        },
+        "category": {
+          "type": "string",
+          "description": "Category of the product."
+        },
+        "fileUrl": {
+          "type": "string",
+          "description": "URL to the downloadable file."
+        },
+        "imageHint": {
+          "type": "string",
+          "description": "Hint for AI to generate a better image."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "price",
+        "imageUrl",
+        "category",
+        "fileUrl",
+        "imageHint"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/digitalProducts/{digitalProductId}",
+        "definition": {
+          "entityName": "DigitalProduct",
+          "schema": {
+            "$ref": "#/backend/entities/DigitalProduct"
+          },
+          "description": "Stores digital product information."
+        }
+      },
+      {
+        "path": "/projects/{projectId}",
+        "definition": {
+          "entityName": "Project",
+          "schema": {
+            "$ref": "#/backend/entities/Project"
+          },
+          "description": "Stores project portfolio information."
+        }
+      },
+      {
+        "path": "/contactSubmissions/{contactSubmissionId}",
+        "definition": {
+          "entityName": "ContactSubmission",
+          "schema": {
+            "$ref": "#/backend/entities/ContactSubmission"
+          },
+          "description": "Stores contact form submissions."
+        }
+      },
+      {
+        "path": "/teamMembers/{teamMemberId}",
+        "definition": {
+          "entityName": "TeamMember",
+          "schema": {
+            "$ref": "#/backend/entities/TeamMember"
+          },
+          "description": "Stores team member information."
+        }
+      }
+    ],
+    "reasoning": "The Firestore structure is designed to manage digital products, projects, contact submissions, and team members. Each entity resides in its own top-level collection to simplify security rules and data access patterns."
+  }
+}
