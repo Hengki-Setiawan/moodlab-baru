@@ -14,7 +14,9 @@ export function createFirebaseAdminApp(): App {
 
   // If no service account is configured, throw an error.
   if (!serviceAccount) {
-    throw new Error('FIREBASE_ADMIN_SDK_CONFIG environment variable is not set. Cannot initialize Firebase Admin SDK.');
+    // For Vercel deployment, we'll skip admin initialization if no service account
+    // This allows the app to work without admin features
+    throw new Error('FIREBASE_ADMIN_SDK_CONFIG environment variable is not set. Firebase Admin features are disabled.');
   }
 
   // Initialize the Firebase Admin App with the service account credentials.

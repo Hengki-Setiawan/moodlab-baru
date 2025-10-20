@@ -10,6 +10,7 @@ export function initializeServerSideFirestore(): { app: App, firestore: Firestor
     return { app: appInstance, firestore: firestoreInstance };
   }
 
+  // Always use the config object for initialization
   const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
   const firestore = getFirestore(app);
 
