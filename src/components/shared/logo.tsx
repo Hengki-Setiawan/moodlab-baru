@@ -8,8 +8,8 @@ export function Logo({ className }: { className?: string }) {
       <Image 
         src="https://iili.io/KSB81hN.md.png" 
         alt="Mood Lab Logo" 
-        width={90} 
-        height={30} 
+        width={80} 
+        height={27} 
         className="h-auto"
         priority
       />
