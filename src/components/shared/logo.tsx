@@ -6,7 +6,7 @@ export function Logo({ className }: { className?: string }) {
   return (
     <Link href="/" className={cn("flex items-center", className)} aria-label="Mood Lab Homepage">
       <Image 
-        src="https://i.postimg.cc/pLGG6Yvw/Untitled-design.png" 
+        src="https://iili.io/KSB81hN.md.png" 
         alt="Mood Lab Logo" 
         width={150} 
         height={50} 
