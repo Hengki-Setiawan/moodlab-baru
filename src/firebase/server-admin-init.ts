@@ -1,8 +1,5 @@
 import { initializeApp, getApps, cert, type App } from 'firebase-admin/app';
-
-const serviceAccount = process.env.FIREBASE_ADMIN_SDK_CONFIG
-  ? JSON.parse(process.env.FIREBASE_ADMIN_SDK_CONFIG)
-  : undefined;
+import { applicationDefault } from 'firebase-admin/app';
 
 // This function creates and returns a Firebase Admin App instance.
 // It ensures that the app is initialized only once.
@@ -12,17 +9,26 @@ export function createFirebaseAdminApp(): App {
     return getApps()[0];
   }
 
-  // If no service account is configured, throw an error.
-  if (!serviceAccount) {
-    // For Vercel deployment, we'll skip admin initialization if no service account
-    // This allows the app to work without admin features
-    throw new Error('FIREBASE_ADMIN_SDK_CONFIG environment variable is not set. Firebase Admin features are disabled.');
+  // Try to initialize with default credentials (works in Vercel)
+  try {
+    const app = initializeApp({
+      credential: applicationDefault(),
+    });
+    return app;
+  } catch (error) {
+    // If that fails, try with service account
+    const serviceAccount = process.env.FIREBASE_ADMIN_SDK_CONFIG
+      ? JSON.parse(process.env.FIREBASE_ADMIN_SDK_CONFIG)
+      : undefined;
+
+    if (!serviceAccount) {
+      throw new Error('Firebase Admin SDK config not found. Please set FIREBASE_ADMIN_SDK_CONFIG environment variable.');
+    }
+
+    const app = initializeApp({
+      credential: cert(serviceAccount),
+    });
+
+    return app;
   }
-
-  // Initialize the Firebase Admin App with the service account credentials.
-  const app = initializeApp({
-    credential: cert(serviceAccount),
-  });
-
-  return app;
 }
