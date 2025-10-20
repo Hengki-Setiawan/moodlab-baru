@@ -8,7 +8,7 @@ import { signOut, type Auth } from "firebase/auth";
 import { cn } from "@/lib/utils";
 import { navItems } from "@/lib/data";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetClose, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetClose, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { Logo } from "@/components/shared/logo";
 import { useAuth, useUser } from "@/firebase";
 import {
@@ -123,6 +123,7 @@ export function Header() {
                 <div className="flex justify-start p-2">
                   <Logo />
                 </div>
+                <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
                 <nav className="flex flex-col gap-4 text-lg font-medium p-4 mt-8">
                   {navItems.map((item) => (
                      <SheetClose asChild key={item.href}>
